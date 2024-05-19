@@ -3,16 +3,15 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"payment-system-four/internal/api"
-	"payment-system-four/internal/repository"
+	"payment-system-one/internal/api"
+	"payment-system-one/internal/repository"
 	"time"
-
-	"github.com/joho/godotenv"
-	"gorm.io/gorm"
 )
 
 // Run injects all dependencies needed to run the app

@@ -2,6 +2,7 @@ package util
 
 import (
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 	"time"
 )
@@ -17,4 +18,9 @@ func Response(c *gin.Context, message string, status int, data interface{}, errs
 	}
 
 	c.IndentedJSON(status, responsedata)
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
 }

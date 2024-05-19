@@ -1,12 +1,11 @@
 package middleware
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
-	"payment-system-four/internal/models"
-
-	"github.com/gin-gonic/gin"
+	"payment-system-one/internal/models"
 )
 
 func AuthorizeAdmin(findUserByEmail func(string) (*models.User, error), tokenInBlacklist func(*string) bool) gin.HandlerFunc {
