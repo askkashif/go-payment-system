@@ -1,12 +1,12 @@
 package server
 
 import (
-	"payment-system-four/internal/api"
-	"payment-system-four/internal/ports"
-	"time"
-
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"payment-system-one/internal/api"
+	"payment-system-one/internal/middleware"
+	"payment-system-one/internal/ports"
+	"time"
 )
 
 // SetupRouter is where router endpoints are called
@@ -24,6 +24,15 @@ func SetupRouter(handler *api.HTTPHandler, repository ports.Repository) *gin.Eng
 	r := router.Group("/")
 	{
 		r.GET("/", handler.Readiness)
+		r.POST("/create", handler.CreateUser)
+		r.POST("/login", handler.LoginUer)
+	}
+
+	// authorizeAdmin authorizes all authorized users handlers
+	authorizeAdmin := r.Group("/admin")
+	authorizeAdmin.Use(middleware.AuthorizeAdmin(repository.FindUserByEmail, repository.TokenInBlacklist))
+	{
+		authorizeAdmin.GET("/user", handler.GetUserByEmail)
 	}
 
 	return router

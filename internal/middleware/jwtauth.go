@@ -2,12 +2,11 @@ package middleware
 
 import (
 	"fmt"
-	"log"
-	"payment-system-four/internal/util"
-	"time"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"log"
+	"payment-system-one/internal/util"
+	"time"
 )
 
 const AccessTokenValidity = time.Hour * 24
