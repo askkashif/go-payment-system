@@ -7,47 +7,44 @@ import (
 	"regexp"
 )
 
-// RegisterUser is a handler function that registers a new user
-func (u *HTTPHandler) RegisterUser(c *gin.Context) {
-	var newUser *models.User
+// CreateAdminAccount is a handler function that creates an administrator account
+func (u *HTTPHandler) CreateAdminAccount(c *gin.Context) {
+	var adminUser *models.User
 
-	// Bind the request body to the newUser struct
-	if err := c.ShouldBind(&newUser); err != nil {
+	// Bind the request body to the adminUser struct
+	if err := c.ShouldBind(&adminUser); err != nil {
 		util.Response(c, "Invalid request", 400, "Bad request body", nil)
 		return
 	}
 
 	// Validate the email format
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-	if !emailRegex.MatchString(newUser.Email) {
+	if !emailRegex.MatchString(adminUser.Email) {
 		util.Response(c, "Invalid email format", 400, "Invalid email format", nil)
 		return
 	}
 
 	// Validate the password strength
 	passwordRegex := regexp.MustCompile(`^(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*\d).{8,}$`)
-	if !passwordRegex.MatchString(newUser.Password) {
+	if !passwordRegex.MatchString(adminUser.Password) {
 		util.Response(c, "Password must be at least 8 characters long and contain at least 2 special characters", 400, "Invalid password format", nil)
 		return
 	}
 
 	// Hash the password before storing it
-	hashedPassword, err := util.HashPassword(newUser.Password)
+	hashedPassword, err := util.HashPassword(adminUser.Password)
 	if err != nil {
 		util.Response(c, "Error hashing password", 500, "Internal server error", nil)
 		return
 	}
-	newUser.Password = hashedPassword
+	adminUser.Password = hashedPassword
 
-	// Persist the new user in the database
-	err = u.Repository.CreateUser(newUser)
+	// Persist the administrator user in the database
+	err = u.Repository.CreateUser(adminUser)
 	if err != nil {
-		util.Response(c, "Error creating user account", 500, "Internal server error", nil)
+		util.Response(c, "Error creating administrator account", 500, "Internal server error", nil)
 		return
 	}
 
-	// Send an email to the administrator for approval
-	// ... (code to send email to administrator)
-
-	util.Response(c, "User registration successful. Your account is pending approval.", 200, "Success", nil)
+	util.Response(c, "Administrator account created successfully", 200, "Success", nil)
 }
