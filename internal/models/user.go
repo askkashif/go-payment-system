@@ -4,18 +4,16 @@ import "gorm.io/gorm"
 
 // User struct represents a user in the system.
 type User struct {
-	gorm.Model                  // Embedding gorm.Model to include ID, CreatedAt, UpdatedAt, and DeletedAt fields
-	FirstName    string `json:"first_name"`    // User's first name
-	LastName     string `json:"last_name"`     // User's last name
-	Password     string `json:"password"`      // User's password (should be hashed in a real application)
-	DateOfBirth  string `json:"date_of_birth"` // User's date of birth
-	Email        string `json:"email"`         // User's email address
-	Phone        string `json:"phone"`         // User's phone number
-	Address      string `json:"address"`       // User's physical address
-	BankAccNum   string `json:"bank_acc_num"`  // User's Bank Account number
-	SortCode     string `json:"sort_code"`     // User's physical address
-	LoginCounter int    `json:"login_counter"` // Counter for login attempts (used for security measures)
-	IsLocked     bool   `json:"is_locked"`     // Boolean to indicate if the user's account is locked
+	gorm.Model
+	FirstName    string `json:"first_name"`
+	LastName     string `json:"last_name"`
+	Password     string `json:"password"`
+	DateOfBirth  string `json:"date_of_birth"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	Address      string `json:"address"`
+	LoginCounter int    `json:"login_counter"`
+	IsLocked     bool   `json:"is_locked"`
 }
 
 // Uncomment and expand the UserProfile struct if additional user profile details are needed.
