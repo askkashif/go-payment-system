@@ -1,35 +1,44 @@
 package repository
 
 import (
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
-	"log"
-	"payment-system-one/internal/models"
-	"payment-system-one/internal/ports"
+	"gorm.io/driver/postgres"             // Importing PostgreSQL driver for GORM
+	"gorm.io/gorm"                        // Importing GORM package for ORM functionality
+	"log"                                 // Importing log package for logging
+	"payment-system-four/internal/models" // Importing models package for user model
+	"payment-system-four/internal/ports"  // Importing ports package for Repository interface
 )
 
+// Postgres struct represents the PostgreSQL repository implementation.
 type Postgres struct {
-	DB *gorm.DB
+	DB *gorm.DB // DB holds the GORM database connection
 }
 
-// NewDB create/returns a new instance of our Database
+// NewDB creates and returns a new instance of the Postgres repository.
 func NewDB(DB *gorm.DB) ports.Repository {
 	return &Postgres{
-		DB: DB,
+		DB: DB, // Assigning the provided database connection to the repository instance
 	}
 }
 
-// Initialize opens the database, create tables if not created and populate it if its empty and returns a DB
+// Initialize opens the database connection, creates necessary tables, and returns the DB instance.
 func Initialize(dbURI string) (*gorm.DB, error) {
-
+	// Opening a connection to the PostgreSQL database
 	conn, err := gorm.Open(postgres.Open(dbURI), &gorm.Config{})
 	if err != nil {
-		//	log.Fatal(err)
+		// If an error occurs while opening the connection, it's logged but not fatal
+		// as we will try to migrate the database tables regardless
 	}
+
+	// Auto-migrating the User model to create the necessary table
 	err = conn.AutoMigrate(&models.User{})
 	if err != nil {
+		// If an error occurs during auto-migration, return the error
 		return nil, err
 	}
+
+	// Logging successful database connection
 	log.Println("Database connection successful")
+
+	// Returning the GORM database instance
 	return conn, nil
 }
