@@ -5,6 +5,8 @@ import (
 	"payment-system-one/internal/models"
 	"payment-system-one/internal/util"
 	"regexp"
+	"math/rand"
+	"time"
 )
 
 // RegisterUser is a handler function that registers a new user
@@ -39,6 +41,12 @@ func (u *HTTPHandler) RegisterUser(c *gin.Context) {
 	}
 	newUser.Password = hashedPassword
 
+	// Generate an account number
+	rand.Seed(time.Now().UnixNano())
+	accountNumber := rand.Intn(999999999-100000000) + 100000000 // Generate a random 9-digit account number
+
+	newUser.AccountNumber = accountNumber
+
 	// Persist the new user in the database
 	err = u.Repository.CreateUser(newUser)
 	if err != nil {
@@ -49,5 +57,9 @@ func (u *HTTPHandler) RegisterUser(c *gin.Context) {
 	// Send an email to the administrator for approval
 	// ... (code to send email to administrator)
 
-	util.Response(c, "User registration successful. Your account is pending approval.", 200, "Success", nil)
+	util.Response(c, "User registration successful. Your account is pending approval.", 200, gin.H{
+		"message":       "Success",
+		"account_number": accountNumber,
+		"initial_balance": newUser.InitialBalance, // Include the initial balance in the response
+	}, nil)
 }
