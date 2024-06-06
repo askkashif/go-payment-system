@@ -1,11 +1,11 @@
 package middleware
 
 import (
-	"github.com/gin-gonic/gin"               // Importing the Gin framework for creating the HTTP server
-	"log"                                   // Importing log package for logging
-	"net/http"                              // Importing net/http package for HTTP constants and functions
-	"os"                                    // Importing os package for OS-related functionality
-	"payment-system-one/internal/models"    // Importing the package containing data models
+	"github.com/gin-gonic/gin"           // Importing the Gin framework for creating the HTTP server
+	"log"                                // Importing log package for logging
+	"net/http"                           // Importing net/http package for HTTP constants and functions
+	"os"                                 // Importing os package for OS-related functionality
+	"payment-system-one/internal/models" // Importing the package containing data models
 )
 
 // AuthorizeAdmin is a middleware function that authorizes admin users
@@ -13,9 +13,9 @@ func AuthorizeAdmin(findUserByEmail func(string) (*models.User, error), tokenInB
 	return func(c *gin.Context) {
 		var user *models.User
 		var errors error
-		secret := os.Getenv("JWT_SECRET")  // Retrieve the JWT secret from environment variables
-		accToken := GetTokenFromHeader(c)  // Extract the token from the request header
-		
+		secret := os.Getenv("JWT_SECRET") // Retrieve the JWT secret from environment variables
+		accToken := GetTokenFromHeader(c) // Extract the token from the request header
+
 		// Authorize the token and extract claims
 		accessToken, accessClaims, err := AuthorizeToken(&accToken, &secret)
 		if err != nil {

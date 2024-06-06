@@ -1,12 +1,12 @@
 package middleware
 
 import (
-	"fmt"                      // Importing fmt package for formatted I/O
-	"github.com/dgrijalva/jwt-go"  // Importing jwt-go package for working with JWT tokens
-	"github.com/gin-gonic/gin" // Importing gin package for HTTP web framework
-	"log"                      // Importing log package for logging
+	"fmt"                              // Importing fmt package for formatted I/O
+	"github.com/dgrijalva/jwt-go"      // Importing jwt-go package for working with JWT tokens
+	"github.com/gin-gonic/gin"         // Importing gin package for HTTP web framework
+	"log"                              // Importing log package for logging
 	"payment-system-one/internal/util" // Importing util package for utility functions
-	"time"                     // Importing time package for time-related functions
+	"time"                             // Importing time package for time-related functions
 )
 
 // Constants defining the validity duration for access and refresh tokens
@@ -37,7 +37,7 @@ func GenerateClaims(email string) (jwt.MapClaims, jwt.MapClaims) {
 
 // GenerateToken generates a JWT token with given signing method, claims, and secret
 func GenerateToken(signMethod *jwt.SigningMethodHMAC, claims jwt.MapClaims, secret *string) (*string, error) {
-	token := jwt.NewWithClaims(signMethod, claims) // Create a new token with the specified claims
+	token := jwt.NewWithClaims(signMethod, claims)          // Create a new token with the specified claims
 	tokenString, err := token.SignedString([]byte(*secret)) // Sign the token with the secret
 	if err != nil {
 		return nil, err
@@ -89,5 +89,5 @@ func IsTokenExpired(claims jwt.MapClaims) bool {
 // RespondAndAbort sends a response and aborts the request
 func RespondAndAbort(c *gin.Context, message string, status int, data interface{}, errs []string) {
 	util.Response(c, message, status, data, errs) // Send a response using util.Response
-	c.Abort() // Abort the request
+	c.Abort()                                     // Abort the request
 }

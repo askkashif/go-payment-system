@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"gorm.io/driver/postgres"   // Importing PostgreSQL driver for GORM
-	"gorm.io/gorm"               // Importing GORM package for ORM functionality
-	"log"                        // Importing log package for logging
+	"gorm.io/driver/postgres"            // Importing PostgreSQL driver for GORM
+	"gorm.io/gorm"                       // Importing GORM package for ORM functionality
+	"log"                                // Importing log package for logging
 	"payment-system-one/internal/models" // Importing models package for user model
 	"payment-system-one/internal/ports"  // Importing ports package for Repository interface
 )

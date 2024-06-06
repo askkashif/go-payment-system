@@ -1,14 +1,14 @@
 package api
 
 import (
-	"github.com/dgrijalva/jwt-go"        // Importing JWT package for token generation and validation
-	"github.com/gin-gonic/gin"           // Importing the Gin framework for creating the HTTP server
-	"net/http"                          // Importing net/http package for HTTP constants and functions
-	"os"                                // Importing os package for OS-related functionality
+	"github.com/dgrijalva/jwt-go"            // Importing JWT package for token generation and validation
+	"github.com/gin-gonic/gin"               // Importing the Gin framework for creating the HTTP server
+	"net/http"                               // Importing net/http package for HTTP constants and functions
+	"os"                                     // Importing os package for OS-related functionality
 	"payment-system-one/internal/middleware" // Importing the package containing middleware functions
 	"payment-system-one/internal/models"     // Importing the package containing data models
 	"payment-system-one/internal/util"       // Importing the package containing utility functions
-	"time"                              // Importing time package for handling durations
+	"time"                                   // Importing time package for handling durations
 )
 
 // Readiness is to check if server is up

@@ -1,10 +1,10 @@
 package util
 
 import (
-	"github.com/gin-gonic/gin"          // Importing Gin framework for HTTP handling
-	"golang.org/x/crypto/bcrypt"        // Importing bcrypt for password hashing
-	"net/http"                          // Importing net/http for HTTP status codes
-	"time"                              // Importing time for timestamp
+	"github.com/gin-gonic/gin"   // Importing Gin framework for HTTP handling
+	"golang.org/x/crypto/bcrypt" // Importing bcrypt for password hashing
+	"net/http"                   // Importing net/http for HTTP status codes
+	"time"                       // Importing time for timestamp
 )
 
 // Response is a utility function for customized HTTP responses.
@@ -14,7 +14,7 @@ func Response(c *gin.Context, message string, status int, data interface{}, errs
 		"message":   message,
 		"data":      data,
 		"errors":    errs,
-		"status":    http.StatusText(status), // Converting HTTP status code to text
+		"status":    http.StatusText(status),                  // Converting HTTP status code to text
 		"timestamp": time.Now().Format("2006-01-02 15:04:05"), // Formatting current time as timestamp
 	}
 

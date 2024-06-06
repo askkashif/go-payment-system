@@ -25,7 +25,7 @@ type User struct {
 
 // Transaction struct represents a financial transaction made by a user.
 type Transaction struct {
-	gorm.Model                         // Embedding gorm.Model to include ID, CreatedAt, UpdatedAt, and DeletedAt fields
+	gorm.Model              // Embedding gorm.Model to include ID, CreatedAt, UpdatedAt, and DeletedAt fields
 	UserID          uint    `json:"user_id"`          // Foreign key referencing the user who made the transaction
 	Amount          float64 `json:"amount"`           // Amount of the transaction
 	Reference       string  `json:"reference"`        // Reference ID for the transaction
@@ -34,6 +34,6 @@ type Transaction struct {
 
 // LoginRequest struct is used for handling login requests.
 type LoginRequest struct {
-	Email    string `json:"email"`     // Email address provided for login
-	Password string `json:"password"`  // Password provided for login
+	Email    string `json:"email"`    // Email address provided for login
+	Password string `json:"password"` // Password provided for login
 }

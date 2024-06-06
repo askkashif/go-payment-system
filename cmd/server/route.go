@@ -1,12 +1,12 @@
 package server
 
 import (
-	"github.com/gin-contrib/cors"          // Importing CORS middleware for handling Cross-Origin Resource Sharing
-	"github.com/gin-gonic/gin"              // Importing the Gin framework for creating the HTTP server
-	"payment-system-one/internal/api"       // Importing the package containing API handlers
-	"payment-system-one/internal/middleware"// Importing the package containing middleware
-	"payment-system-one/internal/ports"     // Importing the package containing port interfaces for dependency injection
-	"time"                                  // Importing the time package for handling durations
+	"github.com/gin-contrib/cors"            // Importing CORS middleware for handling Cross-Origin Resource Sharing
+	"github.com/gin-gonic/gin"               // Importing the Gin framework for creating the HTTP server
+	"payment-system-one/internal/api"        // Importing the package containing API handlers
+	"payment-system-one/internal/middleware" // Importing the package containing middleware
+	"payment-system-one/internal/ports"      // Importing the package containing port interfaces for dependency injection
+	"time"                                   // Importing the time package for handling durations
 )
 
 // SetupRouter is where router endpoints are configured
@@ -16,12 +16,12 @@ func SetupRouter(handler *api.HTTPHandler, repository ports.Repository) *gin.Eng
 
 	// Configure CORS settings to allow cross-origin requests
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},            // Allow all origins
+		AllowOrigins:     []string{"*"},                                     // Allow all origins
 		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE"}, // Allow specified HTTP methods
-		AllowHeaders:     []string{"*"},            // Allow all headers
-		ExposeHeaders:    []string{"Content-Length"}, // Expose Content-Length header
-		AllowCredentials: true,                     // Allow credentials
-		MaxAge:           12 * time.Hour,           // Cache preflight request for 12 hours
+		AllowHeaders:     []string{"*"},                                     // Allow all headers
+		ExposeHeaders:    []string{"Content-Length"},                        // Expose Content-Length header
+		AllowCredentials: true,                                              // Allow credentials
+		MaxAge:           12 * time.Hour,                                    // Cache preflight request for 12 hours
 	}))
 
 	// Create a route group for the root path
