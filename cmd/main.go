@@ -1,8 +1,8 @@
 package main
 
 import (
-	"payment-system-one/cmd/server"
-	"payment-system-one/internal/repository"
+	"payment-system-four/cmd/server"
+	"payment-system-four/internal/repository"
 )
 
 func main() {

@@ -2,10 +2,10 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"payment-system-one/internal/models"
-	"payment-system-one/internal/util"
-	"regexp"
 	"math/rand"
+	"payment-system-four/internal/models"
+	"payment-system-four/internal/util"
+	"regexp"
 	"time"
 )
 
@@ -58,8 +58,8 @@ func (u *HTTPHandler) RegisterUser(c *gin.Context) {
 	// ... (code to send email to administrator)
 
 	util.Response(c, "User registration successful. Your account is pending approval.", 200, gin.H{
-		"message":       "Success",
-		"account_number": accountNumber,
+		"message":         "Success",
+		"account_number":  accountNumber,
 		"initial_balance": newUser.InitialBalance, // Include the initial balance in the response
 	}, nil)
 }

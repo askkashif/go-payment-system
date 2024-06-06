@@ -1,6 +1,6 @@
 package repository
 
-import "payment-system-one/internal/models"
+import "payment-system-four/internal/models"
 
 // TokenInBlacklist checks if a token is already in the blacklist collection.
 func (p *Postgres) TokenInBlacklist(token *string) bool {

@@ -1,17 +1,17 @@
 package server
 
 import (
-	"context"                                // Importing context package for managing server shutdown
-	"fmt"                                    // Importing fmt package for formatted I/O
-	"github.com/joho/godotenv"               // Importing godotenv package to load environment variables from a .env file
-	"gorm.io/gorm"                           // Importing gorm package for ORM (Object-Relational Mapping)
-	"log"                                    // Importing log package for logging
-	"net/http"                               // Importing net/http package for HTTP server
-	"os"                                     // Importing os package for OS-related functionality
-	"os/signal"                              // Importing os/signal package to handle OS signals
-	"payment-system-one/internal/api"        // Importing the package containing API handlers
-	"payment-system-one/internal/repository" // Importing the package containing repository implementations
-	"time"                                   // Importing time package for handling durations
+	"context"                                 // Importing context package for managing server shutdown
+	"fmt"                                     // Importing fmt package for formatted I/O
+	"github.com/joho/godotenv"                // Importing godotenv package to load environment variables from a .env file
+	"gorm.io/gorm"                            // Importing gorm package for ORM (Object-Relational Mapping)
+	"log"                                     // Importing log package for logging
+	"net/http"                                // Importing net/http package for HTTP server
+	"os"                                      // Importing os package for OS-related functionality
+	"os/signal"                               // Importing os/signal package to handle OS signals
+	"payment-system-four/internal/api"        // Importing the package containing API handlers
+	"payment-system-four/internal/repository" // Importing the package containing repository implementations
+	"time"                                    // Importing time package for handling durations
 )
 
 // Run injects all dependencies needed to run the app

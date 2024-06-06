@@ -1,10 +1,10 @@
 package api
 
 import (
-	"fmt"                                // Importing fmt package for formatted I/O
-	"github.com/gin-gonic/gin"           // Importing the Gin framework for creating the HTTP server
-	"payment-system-one/internal/models" // Importing the package containing data models
-	"payment-system-one/internal/ports"  // Importing the package containing port interfaces for dependency injection
+	"fmt"                                 // Importing fmt package for formatted I/O
+	"github.com/gin-gonic/gin"            // Importing the Gin framework for creating the HTTP server
+	"payment-system-four/internal/models" // Importing the package containing data models
+	"payment-system-four/internal/ports"  // Importing the package containing port interfaces for dependency injection
 )
 
 // HTTPHandler struct holds the repository to interact with the database

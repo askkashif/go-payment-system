@@ -1,12 +1,12 @@
 package server
 
 import (
-	"github.com/gin-contrib/cors"            // Importing CORS middleware for handling Cross-Origin Resource Sharing
-	"github.com/gin-gonic/gin"               // Importing the Gin framework for creating the HTTP server
-	"payment-system-one/internal/api"        // Importing the package containing API handlers
-	"payment-system-one/internal/middleware" // Importing the package containing middleware
-	"payment-system-one/internal/ports"      // Importing the package containing port interfaces for dependency injection
-	"time"                                   // Importing the time package for handling durations
+	"github.com/gin-contrib/cors"             // Importing CORS middleware for handling Cross-Origin Resource Sharing
+	"github.com/gin-gonic/gin"                // Importing the Gin framework for creating the HTTP server
+	"payment-system-four/internal/api"        // Importing the package containing API handlers
+	"payment-system-four/internal/middleware" // Importing the package containing middleware
+	"payment-system-four/internal/ports"      // Importing the package containing port interfaces for dependency injection
+	"time"                                    // Importing the time package for handling durations
 )
 
 // SetupRouter is where router endpoints are configured

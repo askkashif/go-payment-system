@@ -5,15 +5,17 @@ import "gorm.io/gorm"
 // User struct represents a user in the system.
 type User struct {
 	gorm.Model
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Password     string `json:"password"`
-	DateOfBirth  string `json:"date_of_birth"`
-	Email        string `json:"email"`
-	Phone        string `json:"phone"`
-	Address      string `json:"address"`
-	LoginCounter int    `json:"login_counter"`
-	IsLocked     bool   `json:"is_locked"`
+	FirstName      string  `json:"first_name"`
+	LastName       string  `json:"last_name"`
+	Password       string  `json:"password"`
+	DateOfBirth    string  `json:"date_of_birth"`
+	Email          string  `json:"email"`
+	Phone          string  `json:"phone"`
+	AccountNumber  int     `json:"account_number"`
+	InitialBalance float64 `json:"initial_balance"`
+	Address        string  `json:"address"`
+	LoginCounter   int     `json:"login_counter"`
+	IsLocked       bool    `json:"is_locked"`
 }
 
 // Uncomment and expand the UserProfile struct if additional user profile details are needed.

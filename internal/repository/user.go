@@ -1,6 +1,6 @@
 package repository
 
-import "payment-system-one/internal/models"
+import "payment-system-four/internal/models"
 
 // FindUserByEmail retrieves a user from the database based on their email address.
 func (p *Postgres) FindUserByEmail(email string) (*models.User, error) {

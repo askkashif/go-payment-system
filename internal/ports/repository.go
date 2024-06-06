@@ -1,6 +1,6 @@
 package ports
 
-import "payment-system-one/internal/models"
+import "payment-system-four/internal/models"
 
 // Repository defines the interface for interacting with data storage.
 type Repository interface {
