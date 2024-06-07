@@ -15,4 +15,16 @@ type Repository interface {
 
 	// UpdateUser updates an existing user in the database.
 	UpdateUser(user *models.User) error
+
+	// UpdateUserBalance updates the user's available balance in the database.
+	UpdateUserBalance(userID uint, amount float64) error
+
+	// GetAllUsers retrieves all users from the database.
+	GetAllUsers() ([]*models.User, error)
+
+	// GetUserTransactions retrieves all transactions for a specific user.
+	GetUserTransactions(userID uint) ([]*models.Transaction, error)
+
+	// CreateTransaction creates a new transaction in the database.
+	CreateTransaction(transaction *models.Transaction) error
 }
