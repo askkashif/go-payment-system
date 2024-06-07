@@ -1,6 +1,8 @@
 package repository
 
-import "payment-system-four/internal/models"
+import (
+	"payment-system-four/internal/models"
+)
 
 // FindUserByEmail retrieves a user from the database based on their email address.
 func (p *Postgres) FindUserByEmail(email string) (*models.User, error) {
@@ -9,6 +11,21 @@ func (p *Postgres) FindUserByEmail(email string) (*models.User, error) {
 
 	// Query the database to find a user with the provided email address
 	if err := p.DB.Where("email = ?", email).First(&user).Error; err != nil {
+		// If no user is found, return nil for the user and the error
+		return nil, err
+	}
+
+	// If a user is found, return the user and nil for the error
+	return user, nil
+}
+
+// FindUserByID retrieves a user from the database based on their ID.
+func (p *Postgres) FindUserByID(userID uint) (*models.User, error) {
+	// Create a new instance of the User model to hold the result of the query
+	user := &models.User{}
+
+	// Query the database to find a user with the provided ID
+	if err := p.DB.First(&user, userID).Error; err != nil {
 		// If no user is found, return nil for the user and the error
 		return nil, err
 	}
@@ -38,5 +55,24 @@ func (p *Postgres) UpdateUser(user *models.User) error {
 	}
 
 	// Return nil if the update is successful
+	return nil
+}
+
+// UpdateUserBalance updates the user's available balance in the database.
+func (p *Postgres) UpdateUserBalance(userID uint, amount float64) error {
+	// Find the user by ID
+	user, err := p.FindUserByID(userID)
+	if err != nil {
+		return err
+	}
+
+	// Update the user's balance
+	user.InitialBalance += amount
+
+	// Save the updated user to the database
+	if err := p.DB.Save(user).Error; err != nil {
+		return err
+	}
+
 	return nil
 }

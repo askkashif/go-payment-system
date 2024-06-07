@@ -1,11 +1,11 @@
 package repository
 
 import (
-	"gorm.io/driver/postgres"             // Importing PostgreSQL driver for GORM
-	"gorm.io/gorm"                        // Importing GORM package for ORM functionality
-	"log"                                 // Importing log package for logging
-	"payment-system-four/internal/models" // Importing models package for user model
-	"payment-system-four/internal/ports"  // Importing ports package for Repository interface
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"log"
+	"payment-system-four/internal/models"
+	"payment-system-four/internal/ports"
 )
 
 // Postgres struct represents the PostgreSQL repository implementation.
@@ -29,8 +29,8 @@ func Initialize(dbURI string) (*gorm.DB, error) {
 		// as we will try to migrate the database tables regardless
 	}
 
-	// Auto-migrating the User model to create the necessary table
-	err = conn.AutoMigrate(&models.User{})
+	// Auto-migrating the User and Transaction models to create the necessary tables
+	err = conn.AutoMigrate(&models.User{}, &models.Transaction{})
 	if err != nil {
 		// If an error occurs during auto-migration, return the error
 		return nil, err
@@ -41,4 +41,30 @@ func Initialize(dbURI string) (*gorm.DB, error) {
 
 	// Returning the GORM database instance
 	return conn, nil
+}
+
+// CreateTransaction creates a new transaction in the database.
+func (p *Postgres) CreateTransaction(transaction *models.Transaction) error {
+	if err := p.DB.Create(transaction).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+// GetAllUsers retrieves all users from the database.
+func (p *Postgres) GetAllUsers() ([]*models.User, error) {
+	var users []*models.User
+	if err := p.DB.Find(&users).Error; err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+// GetUserTransactions retrieves all transactions for a specific user.
+func (p *Postgres) GetUserTransactions(userID uint) ([]*models.Transaction, error) {
+	var transactions []*models.Transaction
+	if err := p.DB.Where("user_id = ?", userID).Find(&transactions).Error; err != nil {
+		return nil, err
+	}
+	return transactions, nil
 }
