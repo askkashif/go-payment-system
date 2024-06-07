@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"payment-system-four/internal/models"
 	"payment-system-four/internal/util"
+	"payment-system-four/internal/notification" // Import the notification package
 )
 
 // DepositHandler handles the deposit of funds into a user's account
@@ -39,13 +40,13 @@ func (u *HTTPHandler) DepositHandler(c *gin.Context) {
 	}
 
 	// Update the user's balance
-	user.InitialBalance += depositRequest.Amount
-
-	// Save the updated user to the database
-	if err := u.Repository.UpdateUser(user); err != nil {
+	if err := u.Repository.UpdateUserBalance(user.ID, depositRequest.Amount); err != nil {
 		util.Response(c, "Error updating balance", 500, "Internal server error", nil)
 		return
 	}
+
+	// Send text message and email notification
+	go notification.SendDepositNotification(user.Phone, user.Email, depositRequest.Amount, user.InitialBalance)
 
 	util.Response(c, "Deposit successful", 200, gin.H{
 		"new_balance": user.InitialBalance,

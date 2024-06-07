@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"payment-system-four/internal/models"
 	"payment-system-four/internal/util"
+	"payment-system-four/internal/notification" // Import the notification package
 )
 
 // TransferHandler handles the transfer of funds from one user to another
@@ -40,16 +41,16 @@ func (u *HTTPHandler) TransferHandler(c *gin.Context) {
 		return
 	}
 
-	// Create a new transaction for the transfer
-	transaction := &models.Transaction{
+	// Create a new transaction for the sender
+	senderTransaction := &models.Transaction{
 		UserID:          senderUser.ID,
 		Amount:          -transferRequest.Amount, // Negative amount for the sender
 		TransactionType: "transfer",
 		Reference:       receiverUser.Email, // Use the receiver's email as the reference
 	}
 
-	// Save the transaction to the database
-	if err := u.Repository.CreateTransaction(transaction); err != nil {
+	// Save the sender transaction to the database
+	if err := u.Repository.CreateTransaction(senderTransaction); err != nil {
 		util.Response(c, "Error creating transaction", 500, "Internal server error", nil)
 		return
 	}
@@ -69,21 +70,19 @@ func (u *HTTPHandler) TransferHandler(c *gin.Context) {
 	}
 
 	// Update the sender's balance
-	senderUser.InitialBalance -= transferRequest.Amount
-
-	// Update the receiver's balance
-	receiverUser.InitialBalance += transferRequest.Amount
-
-	// Save the updated users to the database
-	if err := u.Repository.UpdateUser(senderUser); err != nil {
+	if err := u.Repository.UpdateUserBalance(senderUser.ID, -transferRequest.Amount); err != nil {
 		util.Response(c, "Error updating sender balance", 500, "Internal server error", nil)
 		return
 	}
 
-	if err := u.Repository.UpdateUser(receiverUser); err != nil {
+	// Update the receiver's balance
+	if err := u.Repository.UpdateUserBalance(receiverUser.ID, transferRequest.Amount); err != nil {
 		util.Response(c, "Error updating receiver balance", 500, "Internal server error", nil)
 		return
 	}
+
+	// Send text message and email notification to sender and receiver
+	go notification.SendTransferNotification(senderUser.Phone, senderUser.Email, receiverUser.Phone, receiverUser.Email, transferRequest.Amount)
 
 	util.Response(c, "Transfer successful", 200, gin.H{
 		"sender_balance":    senderUser.InitialBalance,
