@@ -1,49 +1,55 @@
 package server
 
 import (
-	"github.com/gin-contrib/cors"             // Importing CORS middleware for handling Cross-Origin Resource Sharing
-	"github.com/gin-gonic/gin"                // Importing the Gin framework for creating the HTTP server
-	"payment-system-four/internal/api"        // Importing the package containing API handlers
-	"payment-system-four/internal/middleware" // Importing the package containing middleware
-	"payment-system-four/internal/ports"      // Importing the package containing port interfaces for dependency injection
-	"time"                                    // Importing the time package for handling durations
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"payment-system-four/internal/api"
+	"payment-system-four/internal/middleware"
+	"payment-system-four/internal/ports"
+	"time"
 )
 
-// SetupRouter is where router endpoints are configured
+// SetupRouter is where router endpoints are called
 func SetupRouter(handler *api.HTTPHandler, repository ports.Repository) *gin.Engine {
-	// Create a default Gin router
 	router := gin.Default()
-
-	// Configure CORS settings to allow cross-origin requests
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},                                     // Allow all origins
-		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE"}, // Allow specified HTTP methods
-		AllowHeaders:     []string{"*"},                                     // Allow all headers
-		ExposeHeaders:    []string{"Content-Length"},                        // Expose Content-Length header
-		AllowCredentials: true,                                              // Allow credentials
-		MaxAge:           12 * time.Hour,                                    // Cache preflight request for 12 hours
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"POST", "GET", "PUT", "PATCH", "DELETE"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
 
-	// Create a route group for the root path
 	r := router.Group("/")
 	{
-		// Define a GET endpoint for readiness check
 		r.GET("/", handler.Readiness)
-		// Define a POST endpoint to create a new user
-		r.POST("/create", handler.CreateUser)
-		// Define a POST endpoint for user login
-		r.POST("/login", handler.LoginUer)
+		r.POST("/create", handler.RegisterUser)
+		r.POST("/login", handler.LoginUser)
+		r.POST("/createAdmin", handler.CreateAdminAccount)
+		r.POST("/adminlogin", handler.AdminLogin)
+
+	}
+	authorizeUser := r.Group("/user")
+	{
+
+	}
+	authorizeUser.Use(middleware.AuthorizeAdmin(repository.FindUserByEmail, repository.TokenInBlacklist))
+	{
+		authorizeUser.POST("/transfer", handler.UserTransferHandler)
+		authorizeUser.POST("/addfunds", handler.DepositHandler)
+		authorizeUser.GET("/balance", handler.BalanceCheck)
+		authorizeUser.GET("/transaction", handler.UserTransactionHistory)
 	}
 
-	// Create a route group for admin endpoints
+	// authorizeAdmin authorizes all authorized users handlers
 	authorizeAdmin := r.Group("/admin")
-	// Apply middleware to the admin group to authorize admin users
 	authorizeAdmin.Use(middleware.AuthorizeAdmin(repository.FindUserByEmail, repository.TokenInBlacklist))
 	{
-		// Define a GET endpoint to retrieve user information by email
-		authorizeAdmin.GET("/user", handler.GetUserByEmail)
+		authorizeAdmin.GET("/getuser", handler.GetUserByEmail)
+		authorizeAdmin.GET("/alltransactions", handler.AdminTransactionsHandler)
+
 	}
 
-	// Return the configured router
 	return router
 }

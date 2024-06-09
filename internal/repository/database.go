@@ -30,7 +30,7 @@ func Initialize(dbURI string) (*gorm.DB, error) {
 	}
 
 	// Auto-migrating the User and Transaction models to create the necessary tables
-	err = conn.AutoMigrate(&models.User{}, &models.Transaction{})
+	err = conn.AutoMigrate(&models.User{}, &models.Transaction{}, &models.Admin{})
 	if err != nil {
 		// If an error occurs during auto-migration, return the error
 		return nil, err
